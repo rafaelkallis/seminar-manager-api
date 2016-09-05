@@ -25,7 +25,7 @@
         <module name="seminar-manager" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="1.8">
+    <bytecodeTargetLevel>
       <module name="seminar-manager" target="1.8" />
     </bytecodeTargetLevel>
   </component>
