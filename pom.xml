@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.servisionar</groupId>
-    <artifactId>seminar-manager</artifactId>
+    <artifactId>seminar-manager-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>seminar-manager</name>
-    <description>Servisionar seminar manager</description>
+    <name>seminar-manager-api</name>
+    <description>API of Seminar Manager</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -26,6 +26,8 @@
         <postgresql.version>9.4.1209</postgresql.version>
         <spring.boot.starter.version>1.4.0.RELEASE</spring.boot.starter.version>
         <docker.maven.plugin.version>0.4.12</docker.maven.plugin.version>
+        <docker.image.prefix>rafaelkallis</docker.image.prefix>
+        <h2.version>1.4.192</h2.version>
     </properties>
 
     <dependencies>
@@ -43,6 +45,12 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${postgresql.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
+            <scope>test</scope>
         </dependency>
         <!--<dependency>-->
         <!--<groupId>org.springframework.boot</groupId>-->
@@ -76,8 +84,22 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.4.9</version>
+                <configuration>
+                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <dockerDirectory>src/main/docker</dockerDirectory>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-
-
 </project>
